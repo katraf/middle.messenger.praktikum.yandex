@@ -1,4 +1,4 @@
-# Messenger
+# Мессенджер
 
 Учебный проект мессенджера: TypeScript + Vite + Handlebars + PostCSS.
 Спринт 1.
@@ -28,7 +28,7 @@
 
 ## Деплой
 
-Netlify: 
+Netlify: https://katrafmessenger.netlify.app
 
 ## Структура
 
