@@ -28,7 +28,7 @@
 
 ## Деплой
 
-Netlify: https://katrafmessenger.netlify.app/sign-up
+Netlify: https://katrafmessenger.netlify.app
 
 ## Структура
 
