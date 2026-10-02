@@ -1,0 +1,16 @@
+<a class="chat-item{{#if isActive}} chat-item--active{{/if}}" href="/messenger">
+  {{> Avatar}}
+  <div class="chat-item__body">
+    <div class="chat-item__row">
+      <h2 class="chat-item__title">{{title}}</h2>
+      <time class="chat-item__time">{{time}}</time>
+    </div>
+    <div class="chat-item__row">
+      <p class="chat-item__preview">
+        {{#if isOwn}}<span class="chat-item__author">Вы:</span>{{/if}}
+        {{preview}}
+      </p>
+      {{#if unread}}<span class="chat-item__badge">{{unread}}</span>{{/if}}
+    </div>
+  </div>
+</a>

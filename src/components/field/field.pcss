@@ -1,0 +1,44 @@
+.field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--space-m);
+
+  &__input {
+    padding: var(--space-xs) 0 var(--space-s);
+    font-size: var(--font-size-m);
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--color-primary);
+    outline: none;
+
+    &:focus {
+      border-bottom-width: 2px;
+      margin-bottom: -1px;
+    }
+  }
+
+  /* Плавающая подпись: пока поле пустое — подпись на месте плейсхолдера */
+  &__label {
+    position: absolute;
+    top: calc(var(--space-m) + var(--space-xs));
+    left: 0;
+    font-size: var(--font-size-m);
+    color: var(--color-muted);
+    pointer-events: none;
+    transition: top 0.15s ease, font-size 0.15s ease;
+  }
+
+  &__input:focus + &__label,
+  &__input:not(:placeholder-shown) + &__label {
+    top: 0;
+    font-size: var(--font-size-xs);
+  }
+
+  &__error {
+    min-height: 14px;
+    margin-top: var(--space-xs);
+    font-size: var(--font-size-xs);
+    color: var(--color-danger);
+  }
+}

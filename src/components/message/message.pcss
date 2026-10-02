@@ -1,0 +1,29 @@
+.message {
+  position: relative;
+  max-width: min(400px, 80%);
+  padding: 11px 50px 11px var(--space-m);
+  background: var(--color-input);
+  border-radius: var(--radius-m) var(--radius-m) var(--radius-m) 0;
+
+  &--own {
+    margin-left: auto;
+    background: var(--color-accent-soft);
+    border-radius: var(--radius-m) var(--radius-m) 0 var(--radius-m);
+  }
+
+  &__text {
+    white-space: pre-line;
+  }
+
+  &__time {
+    position: absolute;
+    right: 11px;
+    bottom: var(--space-s);
+    font-size: var(--font-size-xs);
+    color: var(--color-muted);
+  }
+
+  &--own &__time {
+    color: var(--color-primary);
+  }
+}

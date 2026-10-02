@@ -1,0 +1,12 @@
+<main class="page page--centered">
+  <section class="pages-index">
+    <h1 class="pages-index__title">Страницы проекта</h1>
+    <nav aria-label="Все страницы">
+      <ul class="pages-index__list">
+        {{#each pages}}
+          <li><a class="link" href="{{href}}">{{title}}</a></li>
+        {{/each}}
+      </ul>
+    </nav>
+  </section>
+</main>

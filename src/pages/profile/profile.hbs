@@ -1,0 +1,46 @@
+<div class="profile-page">
+  <nav class="profile-page__back" aria-label="Назад">
+    <a class="profile-page__back-link" href="/messenger" aria-label="Назад к чатам">
+      <svg width="14" height="12" viewBox="0 0 14 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+        <path d="M13 6H2M6 1 1 6l5 5"/>
+      </svg>
+    </a>
+  </nav>
+
+  <main class="profile">
+    <form class="profile__avatar-form" name="avatar">
+      <label class="profile__avatar">
+        {{> Avatar size="large"}}
+        <span class="profile__avatar-hint">Поменять аватар</span>
+        <input class="visually-hidden" type="file" name="avatar" accept="image/*">
+      </label>
+      {{> Button text="Загрузить" type="submit" variant="small"}}
+    </form>
+
+    <h1 class="profile__name">{{user.display_name}}</h1>
+
+    <form class="profile__section" name="profile">
+      <h2 class="visually-hidden">Личные данные</h2>
+      <ul>
+        {{#each profileFields}}
+          <li>{{> ProfileField this}}</li>
+        {{/each}}
+      </ul>
+      {{> Button text="Сохранить" type="submit"}}
+    </form>
+
+    <form class="profile__section" name="password">
+      <h2 class="profile__subtitle">Изменить пароль</h2>
+      <ul>
+        {{#each passwordFields}}
+          <li>{{> ProfileField this}}</li>
+        {{/each}}
+      </ul>
+      {{> Button text="Изменить пароль" type="submit"}}
+    </form>
+
+    <nav aria-label="Аккаунт">
+      <a class="link link--danger" href="/login">Выйти</a>
+    </nav>
+  </main>
+</div>

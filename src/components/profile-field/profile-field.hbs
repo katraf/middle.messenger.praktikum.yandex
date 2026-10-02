@@ -1,0 +1,10 @@
+<label class="profile-field">
+  <span class="profile-field__label">{{label}}</span>
+  <input
+    class="profile-field__input"
+    type="{{#if type}}{{type}}{{else}}text{{/if}}"
+    name="{{name}}"
+    value="{{value}}"
+    {{#if autocomplete}}autocomplete="{{autocomplete}}"{{/if}}
+  >
+</label>

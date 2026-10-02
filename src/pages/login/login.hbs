@@ -1,0 +1,12 @@
+<main class="page page--centered">
+  {{#> AuthCard
+    title="Вход"
+    formName="login"
+    submitText="Войти"
+    linkText="Нет аккаунта?"
+    linkHref="/sign-up"
+  }}
+    {{> Field label="Логин" name="login" autocomplete="username"}}
+    {{> Field label="Пароль" name="password" type="password" autocomplete="current-password"}}
+  {{/AuthCard}}
+</main>

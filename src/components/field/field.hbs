@@ -1,0 +1,11 @@
+<label class="field">
+  <input
+    class="field__input"
+    type="{{#if type}}{{type}}{{else}}text{{/if}}"
+    name="{{name}}"
+    placeholder=" "
+    {{#if autocomplete}}autocomplete="{{autocomplete}}"{{/if}}
+  >
+  <span class="field__label">{{label}}</span>
+  <span class="field__error" aria-live="polite">{{error}}</span>
+</label>
