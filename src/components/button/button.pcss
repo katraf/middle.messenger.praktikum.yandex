@@ -1,0 +1,23 @@
+.button {
+  width: 100%;
+  min-height: 37px;
+  padding: var(--space-s) var(--space-m);
+  font-size: var(--font-size-m);
+  font-weight: 500;
+  color: var(--color-surface);
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-s);
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: var(--color-primary-hover);
+  }
+
+  &--small {
+    width: auto;
+    min-height: 28px;
+    padding: var(--space-xs) var(--space-m);
+    font-size: var(--font-size-s);
+  }
+}

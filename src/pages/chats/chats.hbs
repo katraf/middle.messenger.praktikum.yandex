@@ -1,0 +1,50 @@
+<div class="messenger">
+  <aside class="messenger__sidebar sidebar">
+    <nav class="sidebar__nav" aria-label="Меню">
+      <a class="link link--muted" href="/settings">Профиль ›</a>
+    </nav>
+    <form class="sidebar__search" name="search" role="search">
+      <input class="sidebar__search-input" type="search" name="search" placeholder="Поиск" aria-label="Поиск по чатам">
+    </form>
+    <ul class="sidebar__chats">
+      {{#each chats}}
+        <li>{{> ChatItem this}}</li>
+      {{/each}}
+    </ul>
+  </aside>
+
+  <main class="messenger__dialog dialog">
+    <header class="dialog__header">
+      {{> Avatar size="small"}}
+      <h1 class="dialog__title">{{activeChat}}</h1>
+      <button class="icon-button dialog__menu" type="button" aria-label="Меню чата">
+        <svg width="4" height="16" viewBox="0 0 4 16" fill="currentColor" aria-hidden="true">
+          <circle cx="2" cy="2" r="1.5"/><circle cx="2" cy="8" r="1.5"/><circle cx="2" cy="14" r="1.5"/>
+        </svg>
+      </button>
+    </header>
+
+    <section class="dialog__feed" aria-label="Переписка">
+      <p class="dialog__date">19 июня</p>
+      <ul class="dialog__messages">
+        {{#each messages}}
+          <li>{{> Message this}}</li>
+        {{/each}}
+      </ul>
+    </section>
+
+    <form class="dialog__composer composer" name="message">
+      <button class="icon-button" type="button" aria-label="Прикрепить файл">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M21 11.5 12.5 20a6 6 0 0 1-8.5-8.5L12.5 3a4 4 0 0 1 5.7 5.7L9.6 17.2a2 2 0 0 1-2.8-2.8L14.5 6.7"/>
+        </svg>
+      </button>
+      <input class="composer__input" type="text" name="message" placeholder="Сообщение" autocomplete="off" aria-label="Сообщение">
+      <button class="composer__send" type="submit" aria-label="Отправить">
+        <svg width="14" height="12" viewBox="0 0 14 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M1 6h11M8 1l5 5-5 5"/>
+        </svg>
+      </button>
+    </form>
+  </main>
+</div>

@@ -1,0 +1,23 @@
+{
+  "name": "js-middle",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "start": "npm run build && vite preview"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.20",
+    "dotenv": "^18.0.3",
+    "handlebars": "^4.7.9",
+    "postcss": "^8.4.49",
+    "postcss-nested": "^7.0.2"
+  }
+}

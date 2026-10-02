@@ -1,0 +1,16 @@
+<main class="page page--centered">
+  {{#> AuthCard
+    title="Регистрация"
+    formName="registration"
+    submitText="Зарегистрироваться"
+    linkText="Войти"
+    linkHref="/login"
+  }}
+    {{> Field label="Почта" name="email" type="email" autocomplete="email"}}
+    {{> Field label="Логин" name="login" autocomplete="username"}}
+    {{> Field label="Имя" name="first_name" autocomplete="given-name"}}
+    {{> Field label="Фамилия" name="second_name" autocomplete="family-name"}}
+    {{> Field label="Телефон" name="phone" type="tel" autocomplete="tel"}}
+    {{> Field label="Пароль" name="password" type="password" autocomplete="new-password"}}
+  {{/AuthCard}}
+</main>
