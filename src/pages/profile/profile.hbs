@@ -10,33 +10,33 @@
   <main class="profile">
     <form class="profile__avatar-form" name="avatar">
       <label class="profile__avatar">
-        {{> Avatar size="large"}}
+        {{{ Avatar size="large" src=user.avatar alt=user.display_name }}}
         <span class="profile__avatar-hint">Поменять аватар</span>
         <input class="visually-hidden" type="file" name="avatar" accept="image/*">
       </label>
-      {{> Button text="Загрузить" type="submit" variant="small"}}
+      {{{ Button text="Загрузить" type="submit" variant="small" }}}
     </form>
 
     <h1 class="profile__name">{{user.display_name}}</h1>
 
-    <form class="profile__section" name="profile">
+    <form class="profile__section" name="profile" novalidate>
       <h2 class="visually-hidden">Личные данные</h2>
       <ul>
         {{#each profileFields}}
-          <li>{{> ProfileField this}}</li>
+          <li>{{{ Field this }}}</li>
         {{/each}}
       </ul>
-      {{> Button text="Сохранить" type="submit"}}
+      {{{ Button text="Сохранить" type="submit" }}}
     </form>
 
-    <form class="profile__section" name="password">
+    <form class="profile__section" name="password" novalidate>
       <h2 class="profile__subtitle">Изменить пароль</h2>
       <ul>
         {{#each passwordFields}}
-          <li>{{> ProfileField this}}</li>
+          <li>{{{ Field this }}}</li>
         {{/each}}
       </ul>
-      {{> Button text="Изменить пароль" type="submit"}}
+      {{{ Button text="Изменить пароль" type="submit" }}}
     </form>
 
     <nav aria-label="Аккаунт">

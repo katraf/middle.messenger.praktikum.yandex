@@ -1,8 +1,6 @@
-import Handlebars from 'handlebars';
-import * as components from '../components';
+import { registerComponent } from '../core/registerComponent';
+import { Avatar, Button, ChatItem, Field, Input, Message } from '../components';
 
 export const registerComponents = (): void => {
-  Object.entries(components).forEach(([name, template]) => {
-    Handlebars.registerPartial(name, template);
-  });
+  [Avatar, Button, ChatItem, Field, Input, Message].forEach(registerComponent);
 };

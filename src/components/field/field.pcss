@@ -1,44 +1,86 @@
 .field {
-  position: relative;
   display: flex;
   flex-direction: column;
-  padding-top: var(--space-m);
 
   &__input {
-    padding: var(--space-xs) 0 var(--space-s);
-    font-size: var(--font-size-m);
+    min-width: 0;
+    padding: 0;
     background: none;
     border: none;
-    border-bottom: 1px solid var(--color-primary);
     outline: none;
+  }
+
+  &__error {
+    min-height: 14px;
+    font-size: var(--font-size-xs);
+    color: var(--color-danger);
+  }
+}
+
+/* Вход и регистрация: подпись лежит в поле и всплывает при вводе */
+.field--floating {
+  position: relative;
+  padding-top: var(--space-m);
+
+  & .field__input {
+    padding: var(--space-xs) 0 var(--space-s);
+    border-bottom: 1px solid var(--color-primary);
 
     &:focus {
-      border-bottom-width: 2px;
       margin-bottom: -1px;
+      border-bottom-width: 2px;
     }
   }
 
-  /* Плавающая подпись: пока поле пустое — подпись на месте плейсхолдера */
-  &__label {
+  & .field__label {
     position: absolute;
     top: calc(var(--space-m) + var(--space-xs));
     left: 0;
-    font-size: var(--font-size-m);
     color: var(--color-muted);
     pointer-events: none;
     transition: top 0.15s ease, font-size 0.15s ease;
   }
 
-  &__input:focus + &__label,
-  &__input:not(:placeholder-shown) + &__label {
+  & .field__input:focus + .field__label,
+  & .field__input:not(:placeholder-shown) + .field__label {
     top: 0;
     font-size: var(--font-size-xs);
   }
 
-  &__error {
-    min-height: 14px;
+  & .field__error {
     margin-top: var(--space-xs);
-    font-size: var(--font-size-xs);
-    color: var(--color-danger);
+  }
+}
+
+/* Настройки профиля: подпись слева, значение справа */
+.field--profile {
+  display: grid;
+  grid-template-areas:
+    'label input'
+    'error error';
+  grid-template-columns: auto 1fr;
+  gap: 0 var(--space-m);
+  align-items: center;
+  padding: var(--space-s) 0 0;
+  border-bottom: 1px solid var(--color-border);
+
+  & .field__label {
+    grid-area: label;
+  }
+
+  & .field__input {
+    grid-area: input;
+    color: var(--color-muted);
+    text-align: right;
+
+    &:focus {
+      color: var(--color-text);
+    }
+  }
+
+  & .field__error {
+    grid-area: error;
+    padding: var(--space-xs) 0;
+    text-align: right;
   }
 }
