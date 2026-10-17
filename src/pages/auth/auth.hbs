@@ -1,0 +1,16 @@
+<main class="page page--centered">
+  <section class="auth-card">
+    <h1 class="auth-card__title">{{title}}</h1>
+    <form class="auth-card__form" name="{{formName}}" novalidate>
+      <div class="auth-card__fields">
+        {{#each fields}}
+          {{{ Field this }}}
+        {{/each}}
+      </div>
+      <div class="auth-card__actions">
+        {{{ Button text=submitText type="submit" }}}
+        <a class="link auth-card__link" href="{{linkHref}}">{{linkText}}</a>
+      </div>
+    </form>
+  </section>
+</main>
