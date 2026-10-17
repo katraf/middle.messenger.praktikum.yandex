@@ -1,0 +1,9 @@
+<input
+  class="{{className}}"
+  type="{{#if type}}{{type}}{{else}}text{{/if}}"
+  name="{{name}}"
+  value="{{value}}"
+  placeholder="{{#if placeholder}}{{placeholder}}{{else}} {{/if}}"
+  {{#if autocomplete}}autocomplete="{{autocomplete}}"{{/if}}
+  {{#if label}}aria-label="{{label}}"{{/if}}
+>
