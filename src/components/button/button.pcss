@@ -20,4 +20,24 @@
     padding: var(--space-xs) var(--space-m);
     font-size: var(--font-size-s);
   }
+
+  /* Действие, оформленное как текстовая ссылка (например, «Выйти») */
+  &--text,
+  &--danger {
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    font-weight: 400;
+    color: var(--color-primary);
+    background: none;
+
+    &:hover {
+      text-decoration: underline;
+      background: none;
+    }
+  }
+
+  &--danger {
+    color: var(--color-danger);
+  }
 }
