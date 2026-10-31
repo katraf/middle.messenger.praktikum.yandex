@@ -1,23 +1,20 @@
 <div class="profile-page">
-  <nav class="profile-page__back" aria-label="Назад">
-    <a class="profile-page__back-link" href="/messenger" aria-label="Назад к чатам">
-      <svg width="14" height="12" viewBox="0 0 14 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-        <path d="M13 6H2M6 1 1 6l5 5"/>
-      </svg>
-    </a>
+  <nav class="profile-page__back" aria-label="Навигация">
+    {{{ Link href=backHref icon="back" label="Вернуться к чатам" className="profile-page__back-link" }}}
   </nav>
 
   <main class="profile">
     <form class="profile__avatar-form" name="avatar">
       <label class="profile__avatar">
-        {{{ Avatar size="large" src=user.avatar alt=user.display_name }}}
+        {{{ Avatar size="large" src=avatarSrc alt=userName }}}
         <span class="profile__avatar-hint">Поменять аватар</span>
         <input class="visually-hidden" type="file" name="avatar" accept="image/*">
       </label>
+      <p class="form-status" ref="avatarStatus" aria-live="polite"></p>
       {{{ Button text="Загрузить" type="submit" variant="small" }}}
     </form>
 
-    <h1 class="profile__name">{{user.display_name}}</h1>
+    <h1 class="profile__name">{{userName}}</h1>
 
     <form class="profile__section" name="profile" novalidate>
       <h2 class="visually-hidden">Личные данные</h2>
@@ -26,6 +23,7 @@
           <li>{{{ Field this }}}</li>
         {{/each}}
       </ul>
+      <p class="form-status" ref="profileStatus" aria-live="polite"></p>
       {{{ Button text="Сохранить" type="submit" }}}
     </form>
 
@@ -36,11 +34,12 @@
           <li>{{{ Field this }}}</li>
         {{/each}}
       </ul>
+      <p class="form-status" ref="passwordStatus" aria-live="polite"></p>
       {{{ Button text="Изменить пароль" type="submit" }}}
     </form>
 
     <nav aria-label="Аккаунт">
-      <a class="link link--danger" href="/login">Выйти</a>
+      {{{ Button text="Выйти" variant="danger" onClick=onLogout }}}
     </nav>
   </main>
 </div>
