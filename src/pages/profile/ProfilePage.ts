@@ -52,6 +52,8 @@ export class ProfilePage extends Block<ProfilePageProps> {
 
   private unsubscribe: (() => void) | null = null;
 
+  private isLoggingOut = false;
+
   private formHandlers: Record<string, (values: FormValues, form: HTMLFormElement) => Promise<void>> = {
     avatar: (_values, form) => this.saveAvatar(form),
     profile: (values) => this.saveProfile(values),
@@ -78,7 +80,7 @@ export class ProfilePage extends Block<ProfilePageProps> {
       passwordFields,
       backHref: Routes.Messenger,
       onLogout: () => {
-        void AuthController.logout();
+        void this.logout();
       },
     });
   }
@@ -90,6 +92,23 @@ export class ProfilePage extends Block<ProfilePageProps> {
   protected componentWillUnmount(): void {
     this.unsubscribe?.();
     this.unsubscribe = null;
+  }
+
+  private async logout(): Promise<void> {
+    if (this.isLoggingOut) {
+      return;
+    }
+
+    this.isLoggingOut = true;
+    showStatus(this.refs.logoutStatus, '');
+
+    try {
+      await AuthController.logout();
+    } catch (error) {
+      showStatus(this.refs.logoutStatus, getErrorText(error));
+    } finally {
+      this.isLoggingOut = false;
+    }
   }
 
   private async saveAvatar(form: HTMLFormElement): Promise<void> {

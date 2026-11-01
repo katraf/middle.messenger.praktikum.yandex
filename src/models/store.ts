@@ -10,9 +10,14 @@ export interface AppState {
   activeChatUsers: ChatUser[];
 }
 
-export const store = new Store<AppState>({
+const initialState: AppState = {
   user: null,
   chats: [],
   activeChatId: null,
   activeChatUsers: [],
-});
+};
+
+export const store = new Store<AppState>(initialState);
+
+/** Сброс состояния после выхода или истёкшей сессии */
+export const resetStore = (): void => store.set(initialState);

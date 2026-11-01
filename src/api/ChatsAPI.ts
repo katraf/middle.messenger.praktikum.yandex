@@ -14,6 +14,8 @@ export const ChatsAPI = {
 
   createChat: (title: string) => http.post<{ id: number }>('', { data: { title } }),
 
+  deleteChat: (chatId: number) => http.delete('', { data: { chatId } }),
+
   getChatUsers: (chatId: number) => http.get<ChatUser[]>(`/${chatId}/users`),
 
   addUsers: (chatId: number, users: number[]) => http.put('/users', { data: { chatId, users } }),
