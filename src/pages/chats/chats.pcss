@@ -37,9 +37,42 @@
     }
   }
 
+  &__create {
+    display: flex;
+    gap: var(--space-s);
+    padding: 0 10px var(--space-m);
+  }
+
+  &__create-input {
+    min-width: 0;
+    flex-grow: 1;
+    height: 28px;
+    padding: 0 var(--space-s);
+    font-size: var(--font-size-s);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    outline: none;
+
+    &:focus {
+      border-color: var(--color-primary);
+    }
+  }
+
+  &__status {
+    padding: 0 10px var(--space-s);
+  }
+
   &__chats {
     flex-grow: 1;
     overflow-y: auto;
+  }
+
+  &__empty {
+    padding: var(--space-l) 10px;
+    font-size: var(--font-size-s);
+    color: var(--color-muted);
+    text-align: center;
   }
 }
 
@@ -128,4 +161,82 @@
   .sidebar {
     display: none;
   }
+}
+
+.dialog__empty,
+.dialog__placeholder {
+  margin: auto;
+  font-size: var(--font-size-s);
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.dialog__placeholder {
+  font-size: var(--font-size-m);
+}
+
+.members {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  padding: var(--space-m) 0;
+  border-bottom: 1px solid var(--color-border);
+
+  &__title {
+    font-size: var(--font-size-m);
+    font-weight: 600;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  &__item {
+    display: flex;
+    gap: var(--space-s);
+    align-items: baseline;
+  }
+
+  &__name {
+    font-weight: 500;
+  }
+
+  &__login,
+  &__me {
+    flex-grow: 1;
+    font-size: var(--font-size-s);
+    color: var(--color-muted);
+  }
+
+  &__add {
+    display: flex;
+    gap: var(--space-s);
+    max-width: 360px;
+  }
+
+  &__input {
+    min-width: 0;
+    flex-grow: 1;
+    height: 28px;
+    padding: 0 var(--space-s);
+    font-size: var(--font-size-s);
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    outline: none;
+
+    &:focus {
+      border-color: var(--color-primary);
+    }
+  }
+
+  & .form-status {
+    text-align: left;
+  }
+}
+
+.members__danger {
+  padding-top: var(--space-s);
+  border-top: 1px solid var(--color-border);
 }
