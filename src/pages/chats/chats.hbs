@@ -55,6 +55,11 @@
             {{{ Button text="Добавить" type="submit" variant="small" }}}
           </form>
           <p class="form-status" ref="membersStatus" aria-live="polite"></p>
+          {{#if activeChat.canDelete}}
+            <div class="members__danger">
+              {{{ Button text="Удалить чат" variant="danger" onClick=onDeleteChat }}}
+            </div>
+          {{/if}}
         </section>
       {{/if}}
 

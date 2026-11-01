@@ -1,8 +1,8 @@
 import { AuthAPI } from '../api';
 import { HTTPError } from '../core/HTTPTransport';
-import { store, type SignInData, type SignUpData, type User } from '../models';
+import { resetStore, store, type SignInData, type SignUpData, type User } from '../models';
 import { router, Routes } from '../router';
-import { handleApiError, toMessage } from './errors';
+import { toMessage } from './errors';
 
 export const AuthController = {
   /** Проверка сессии: загружает пользователя или сбрасывает его в null */
@@ -45,14 +45,22 @@ export const AuthController = {
     router.go(Routes.Messenger);
   },
 
+  /**
+   * Состояние очищается только после того, как сервер завершил сессию.
+   * При ошибке бросает Error с текстом для пользователя, пользователь остаётся в системе.
+   */
   async logout(): Promise<void> {
     try {
       await AuthAPI.logout();
     } catch (error) {
-      handleApiError(error);
-    } finally {
-      store.set({ user: null, chats: [], activeChatId: null, activeChatUsers: [] });
-      router.go(Routes.Login);
+      // 401 — сессии на сервере уже нет, выход фактически состоялся
+      const sessionGone = error instanceof HTTPError && error.status === 401;
+      if (!sessionGone) {
+        throw new Error(`Не удалось выйти: ${toMessage(error)}`);
+      }
     }
+
+    resetStore();
+    router.go(Routes.Login);
   },
 };

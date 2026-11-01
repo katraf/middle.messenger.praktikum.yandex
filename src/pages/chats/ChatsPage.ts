@@ -19,11 +19,12 @@ interface MemberView {
 
 interface ChatsPageProps extends BlockOwnProps {
   chats: Omit<ChatItemProps, keyof BlockOwnProps>[];
-  activeChat: { title: string; avatarSrc: string } | null;
+  activeChat: { title: string; avatarSrc: string; canDelete: boolean } | null;
   members: MemberView[];
   isMembersOpen: boolean;
   searchQuery: string;
   settingsHref: string;
+  onDeleteChat: () => void;
 }
 
 export class ChatsPage extends Block<ChatsPageProps> {
@@ -57,6 +58,9 @@ export class ChatsPage extends Block<ChatsPageProps> {
       isMembersOpen: false,
       searchQuery: '',
       settingsHref: Routes.Settings,
+      onDeleteChat: () => {
+        void this.deleteChat();
+      },
     });
 
     this.props = { ...this.props, ...this.mapStateToProps(store.getState()) };
@@ -80,7 +84,14 @@ export class ChatsPage extends Block<ChatsPageProps> {
 
     return {
       chats: state.chats.map((chat) => this.toChatItem(chat, state)),
-      activeChat: active ? { title: active.title, avatarSrc: getResourceUrl(active.avatar) } : null,
+      activeChat: active
+        ? {
+          title: active.title,
+          avatarSrc: getResourceUrl(active.avatar),
+          // Удалить чат может только создатель
+          canDelete: active.created_by === me?.id,
+        }
+        : null,
       members: state.activeChatUsers.map((user) => this.toMember(user, me?.id)),
     };
   }
@@ -182,6 +193,23 @@ export class ChatsPage extends Block<ChatsPageProps> {
     try {
       await ChatController.removeUser(activeChatId, userId);
       showStatus(this.refs.membersStatus, 'Пользователь удалён из чата', 'success');
+    } catch (error) {
+      showStatus(this.refs.membersStatus, getErrorText(error));
+    }
+  }
+
+  private async deleteChat(): Promise<void> {
+    const { activeChatId, chats } = store.getState();
+    const chat = chats.find((item) => item.id === activeChatId);
+
+    if (!chat || !window.confirm(`Удалить чат «${chat.title}»? Это действие нельзя отменить.`)) {
+      return;
+    }
+
+    try {
+      await ChatController.deleteChat(chat.id);
+      this.setProps({ isMembersOpen: false });
+      showStatus(this.refs.sidebarStatus, `Чат «${chat.title}» удалён`, 'success');
     } catch (error) {
       showStatus(this.refs.membersStatus, getErrorText(error));
     }

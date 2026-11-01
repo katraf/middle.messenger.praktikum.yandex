@@ -27,6 +27,21 @@ export const ChatController = {
     await this.selectChat(chatId);
   },
 
+  /** Удалить чат может только его создатель */
+  async deleteChat(chatId: number): Promise<void> {
+    try {
+      await ChatsAPI.deleteChat(chatId);
+    } catch (error) {
+      throw new Error(handleApiError(error));
+    }
+
+    const { chats, activeChatId } = store.getState();
+    store.set({
+      chats: chats.filter((chat) => chat.id !== chatId),
+      ...(activeChatId === chatId ? { activeChatId: null, activeChatUsers: [] } : {}),
+    });
+  },
+
   async selectChat(chatId: number): Promise<void> {
     store.set({ activeChatId: chatId, activeChatUsers: [] });
     await this.fetchChatUsers(chatId);

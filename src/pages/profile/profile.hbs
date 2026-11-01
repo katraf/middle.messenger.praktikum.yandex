@@ -38,8 +38,9 @@
       {{{ Button text="Изменить пароль" type="submit" }}}
     </form>
 
-    <nav aria-label="Аккаунт">
+    <nav class="profile__account" aria-label="Аккаунт">
       {{{ Button text="Выйти" variant="danger" onClick=onLogout }}}
+      <p class="form-status" ref="logoutStatus" aria-live="polite"></p>
     </nav>
   </main>
 </div>
