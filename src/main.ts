@@ -1,5 +1,5 @@
 import './styles/index.pcss';
-import { AuthController } from './controllers';
+import { AuthController, MessagesController } from './controllers';
 import { store } from './models';
 import {
   ChatsPage,
@@ -35,5 +35,11 @@ router
     return null;
   });
 
-// Сначала узнаём, есть ли сессия (GET /auth/user), затем показываем страницу
-AuthController.fetchUser().finally(() => router.start());
+// Сокет открытого чата следует за состоянием приложения
+MessagesController.watch();
+
+// Сначала узнаём, есть ли сессия (GET /auth/user), затем показываем страницу.
+// Если сервер недоступен — честно показываем страницу 500, а не форму входа.
+AuthController.fetchUser()
+  .catch(() => window.history.replaceState({}, '', Routes.ServerError))
+  .finally(() => router.start());

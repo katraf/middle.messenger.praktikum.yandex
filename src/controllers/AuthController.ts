@@ -2,22 +2,31 @@ import { AuthAPI } from '../api';
 import { HTTPError } from '../core/HTTPTransport';
 import { resetStore, store, type SignInData, type SignUpData, type User } from '../models';
 import { router, Routes } from '../router';
+import { UserError } from '../utils/UserError';
 import { toMessage } from './errors';
 
 export const AuthController = {
-  /** Проверка сессии: загружает пользователя или сбрасывает его в null */
+  /**
+   * Проверка сессии: загружает пользователя или сбрасывает его в null.
+   * 401 — просто нет сессии. Сетевая ошибка или 5xx пробрасываются дальше:
+   * это не «не авторизован», а «сервер недоступен».
+   */
   async fetchUser(): Promise<User | null> {
     try {
       const user = await AuthAPI.getUser();
       store.set({ user });
       return user;
-    } catch {
+    } catch (error) {
       store.set({ user: null });
-      return null;
+
+      if (error instanceof HTTPError && error.status === 401) {
+        return null;
+      }
+      throw error;
     }
   },
 
-  /** Бросает Error с текстом для формы, если войти не удалось */
+  /** Бросает UserError с текстом для формы, если войти не удалось */
   async signIn(data: SignInData): Promise<void> {
     try {
       await AuthAPI.signIn(data);
@@ -25,7 +34,7 @@ export const AuthController = {
       // Сессия уже есть (например, вход в другой вкладке) — просто продолжаем
       const alreadyIn = error instanceof HTTPError && error.message === 'User already in system';
       if (!alreadyIn) {
-        throw new Error(toMessage(error));
+        throw new UserError(toMessage(error));
       }
     }
 
@@ -37,7 +46,7 @@ export const AuthController = {
     try {
       await AuthAPI.signUp(data);
     } catch (error) {
-      throw new Error(toMessage(error));
+      throw new UserError(toMessage(error));
     }
 
     // После регистрации сервер сразу авторизует пользователя
@@ -47,7 +56,7 @@ export const AuthController = {
 
   /**
    * Состояние очищается только после того, как сервер завершил сессию.
-   * При ошибке бросает Error с текстом для пользователя, пользователь остаётся в системе.
+   * При ошибке бросает UserError с текстом для пользователя, пользователь остаётся в системе.
    */
   async logout(): Promise<void> {
     try {
@@ -56,7 +65,7 @@ export const AuthController = {
       // 401 — сессии на сервере уже нет, выход фактически состоялся
       const sessionGone = error instanceof HTTPError && error.status === 401;
       if (!sessionGone) {
-        throw new Error(`Не удалось выйти: ${toMessage(error)}`);
+        throw new UserError(`Не удалось выйти: ${toMessage(error)}`);
       }
     }
 

@@ -63,8 +63,35 @@
         </section>
       {{/if}}
 
-      <section class="dialog__feed" aria-label="Переписка">
-        <p class="dialog__empty">Сообщений пока нет</p>
+      {{#if connectionNotice}}
+        <div class="dialog__notice" role="status">
+          <span>{{connectionNotice}}</span>
+          {{#if canRetry}}
+            <button class="dialog__retry" type="button" data-action="reconnect">Повторить</button>
+          {{/if}}
+        </div>
+      {{/if}}
+
+      <section class="dialog__feed" ref="feed" aria-label="Переписка" aria-live="polite">
+        {{#if hasMoreMessages}}
+          <button class="dialog__more" type="button" data-action="load-older">Показать более ранние сообщения</button>
+        {{/if}}
+        {{#if messageGroups.length}}
+          <ul class="dialog__days">
+            {{#each messageGroups}}
+              <li class="dialog__day">
+                <p class="dialog__date">{{day}}</p>
+                <ul class="dialog__messages">
+                  {{#each messages}}
+                    <li>{{{ Message this }}}</li>
+                  {{/each}}
+                </ul>
+              </li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <p class="dialog__empty">{{feedPlaceholder}}</p>
+        {{/if}}
       </section>
 
       <form class="dialog__composer composer" name="message" novalidate>
@@ -73,13 +100,14 @@
             <path d="M21 11.5 12.5 20a6 6 0 0 1-8.5-8.5L12.5 3a4 4 0 0 1 5.7 5.7L9.6 17.2a2 2 0 0 1-2.8-2.8L14.5 6.7"/>
           </svg>
         </button>
-        {{{ Input className="composer__input" name="message" placeholder="Сообщение" label="Сообщение" autocomplete="off" }}}
+        {{{ Input className="composer__input" name="message" placeholder="Сообщение" label="Сообщение" autocomplete="off" ref="messageInput" }}}
         <button class="composer__send" type="submit" aria-label="Отправить">
           <svg width="14" height="12" viewBox="0 0 14 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
             <path d="M1 6h11M8 1l5 5-5 5"/>
           </svg>
         </button>
       </form>
+      <p class="form-status composer__status" ref="composerStatus" aria-live="polite"></p>
     {{else}}
       <p class="dialog__placeholder">Выберите чат или создайте новый</p>
     {{/if}}

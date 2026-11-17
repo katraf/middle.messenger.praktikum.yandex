@@ -1,4 +1,5 @@
 import type Block from '../core/Block';
+import { DEFAULT_ERROR_TEXT, logError, UserError } from './UserError';
 
 export type FormValues = Record<string, FormDataEntryValue>;
 
@@ -67,5 +68,15 @@ export const showStatus = (
   element.classList.toggle('form-status--success', kind === 'success');
 };
 
-export const getErrorText = (error: unknown): string =>
-  error instanceof Error ? error.message : String(error);
+/**
+ * Текст ошибки для показа под формой. Показываем только UserError —
+ * их тексты пишем мы сами. Остальное (сбои в коде, неожиданные ответы) — общим текстом.
+ */
+export const getErrorText = (error: unknown): string => {
+  if (error instanceof UserError) {
+    return error.message;
+  }
+
+  logError('UI', error);
+  return DEFAULT_ERROR_TEXT;
+};

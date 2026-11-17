@@ -16,7 +16,11 @@ export interface RequestOptions {
   timeout?: number;
 }
 
-/** Ошибка ответа сервера: статус и текст причины из поля reason */
+/**
+ * Ошибка ответа сервера: статус и текст причины из поля reason.
+ * message — внутренний текст для логики и отладки, пользователю его не показываем
+ * (безопасный текст даёт toMessage в controllers/errors.ts).
+ */
 export class HTTPError extends Error {
   status: number;
 
