@@ -1,4 +1,5 @@
 <article class="message{{#if isOwn}} message--own{{/if}}">
+  {{#if author}}<p class="message__author">{{author}}</p>{{/if}}
   <p class="message__text">{{text}}</p>
-  <time class="message__time">{{time}}</time>
+  <time class="message__time" datetime="{{datetime}}">{{time}}</time>
 </article>

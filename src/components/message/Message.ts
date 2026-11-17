@@ -4,7 +4,12 @@ import './message.pcss';
 
 export interface MessageProps extends BlockOwnProps {
   text: string;
+  /** Время для показа, например «14:05» */
   time: string;
+  /** Исходная дата в ISO для атрибута datetime */
+  datetime?: string;
+  /** Имя автора — только у чужих сообщений */
+  author?: string;
   isOwn?: boolean;
 }
 
