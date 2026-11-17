@@ -1,0 +1,2 @@
+# Хуки выполняет sh: переводы строк Windows (CRLF) ломают команды
+.husky/* text eol=lf
