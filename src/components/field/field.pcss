@@ -17,6 +17,45 @@
   }
 }
 
+/*
+  Порядок блоков важен для stylelint (no-descending-specificity):
+  селекторы с меньшей специфичностью идут раньше. Модификаторы взаимоисключающие,
+  поэтому на вид порядок не влияет.
+*/
+
+/* Настройки профиля: подпись слева, значение справа */
+.field--profile {
+  display: grid;
+  grid-template-areas:
+    'label input'
+    'error error';
+  grid-template-columns: auto 1fr;
+  gap: 0 var(--space-m);
+  align-items: center;
+  padding: var(--space-s) 0 0;
+  border-bottom: 1px solid var(--color-border);
+
+  & .field__label {
+    grid-area: label;
+  }
+
+  & .field__input {
+    grid-area: input;
+    color: var(--color-muted);
+    text-align: right;
+
+    &:focus {
+      color: var(--color-text);
+    }
+  }
+
+  & .field__error {
+    grid-area: error;
+    padding: var(--space-xs) 0;
+    text-align: right;
+  }
+}
+
 /* Вход и регистрация: подпись лежит в поле и всплывает при вводе */
 .field--floating {
   position: relative;
@@ -49,38 +88,5 @@
 
   & .field__error {
     margin-top: var(--space-xs);
-  }
-}
-
-/* Настройки профиля: подпись слева, значение справа */
-.field--profile {
-  display: grid;
-  grid-template-areas:
-    'label input'
-    'error error';
-  grid-template-columns: auto 1fr;
-  gap: 0 var(--space-m);
-  align-items: center;
-  padding: var(--space-s) 0 0;
-  border-bottom: 1px solid var(--color-border);
-
-  & .field__label {
-    grid-area: label;
-  }
-
-  & .field__input {
-    grid-area: input;
-    color: var(--color-muted);
-    text-align: right;
-
-    &:focus {
-      color: var(--color-text);
-    }
-  }
-
-  & .field__error {
-    grid-area: error;
-    padding: var(--space-xs) 0;
-    text-align: right;
   }
 }
