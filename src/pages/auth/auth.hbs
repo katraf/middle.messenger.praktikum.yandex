@@ -8,8 +8,9 @@
         {{/each}}
       </div>
       <div class="auth-card__actions">
+        <p class="form-status" ref="status" aria-live="polite"></p>
         {{{ Button text=submitText type="submit" }}}
-        <a class="link auth-card__link" href="{{linkHref}}">{{linkText}}</a>
+        {{{ Link href=linkHref text=linkText className="auth-card__link" }}}
       </div>
     </form>
   </section>

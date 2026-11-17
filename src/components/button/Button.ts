@@ -5,7 +5,7 @@ import './button.pcss';
 export interface ButtonProps extends BlockOwnProps {
   text: string;
   type?: 'button' | 'submit';
-  variant?: 'small';
+  variant?: 'small' | 'text' | 'danger';
   onClick?: (event: Event) => void;
 }
 

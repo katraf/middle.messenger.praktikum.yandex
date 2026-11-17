@@ -1,29 +1,42 @@
-import { UserModel, type User } from '../models';
-import type { FormValues } from '../utils/form';
+import { UserAPI } from '../api';
+import { store, type PasswordData, type ProfileData, type User } from '../models';
+import { handleApiError } from './errors';
 
-const toStrings = (values: FormValues): Record<string, string> =>
-  Object.fromEntries(
-    Object.entries(values).filter((entry): entry is [string, string] => typeof entry[1] === 'string'),
-  );
-
+/** Методы бросают Error с текстом для показа в форме */
 export const UserController = {
-  getUser(): User {
-    return UserModel.get();
+  async updateProfile(data: ProfileData): Promise<void> {
+    try {
+      const user = await UserAPI.updateProfile(data);
+      store.set({ user });
+    } catch (error) {
+      throw new Error(handleApiError(error));
+    }
   },
 
-  updateProfile(values: FormValues): User {
-    return UserModel.update(toStrings(values));
+  async updateAvatar(data: FormData): Promise<void> {
+    try {
+      const user = await UserAPI.updateAvatar(data);
+      store.set({ user });
+    } catch (error) {
+      throw new Error(handleApiError(error));
+    }
   },
 
-  changePassword(values: FormValues): void {
-    console.log('UserController.changePassword', values);
+  async changePassword(data: PasswordData): Promise<void> {
+    try {
+      await UserAPI.updatePassword(data);
+    } catch (error) {
+      throw new Error(handleApiError(error));
+    }
   },
 
-  changeAvatar(values: FormValues): void {
-    const { avatar } = values;
-
-    if (avatar instanceof File && avatar.size > 0) {
-      console.log('UserController.changeAvatar', avatar.name);
+  /** Ищет пользователя с точно таким логином */
+  async findByLogin(login: string): Promise<User | undefined> {
+    try {
+      const users = await UserAPI.search(login);
+      return users.find((user) => user.login === login);
+    } catch (error) {
+      throw new Error(handleApiError(error));
     }
   },
 };

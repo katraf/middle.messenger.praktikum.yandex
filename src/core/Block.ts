@@ -39,6 +39,13 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
     this.render();
   }
 
+  /** Снимает обработчики и подписки и убирает элемент из DOM (используется роутером при уходе со страницы) */
+  public destroy() {
+    this.unmountComponent();
+    this.domElement?.remove();
+    this.domElement = null;
+  }
+
   protected componentDidMount() {}
 
   private mountComponent() {
@@ -50,7 +57,7 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
   private unmountComponent() {
     if (this.domElement) {
-      this.children.reverse().forEach(child => child.unmountComponent());
+      [...this.children].reverse().forEach(child => child.unmountComponent());
 
       this.componentWillUnmount();
       this.removeListeners();

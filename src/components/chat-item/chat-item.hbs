@@ -1,5 +1,5 @@
-<a class="chat-item{{#if isActive}} chat-item--active{{/if}}" href="/messenger">
-  {{{ Avatar }}}
+<a class="chat-item{{#if isActive}} chat-item--active{{/if}}" href="{{href}}"{{#if isActive}} aria-current="true"{{/if}}>
+  {{{ Avatar src=avatarSrc alt=title }}}
   <div class="chat-item__body">
     <div class="chat-item__row">
       <h2 class="chat-item__title">{{title}}</h2>

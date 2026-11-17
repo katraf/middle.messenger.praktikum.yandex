@@ -37,4 +37,9 @@ export class Field extends Block<FieldProps> implements Validatable {
     this.setProps({ value, error });
     return !error;
   }
+
+  /** Очищает значение и ошибку (form.reset() не подходит: value хранится в props) */
+  public clear(): void {
+    this.setProps({ value: '', error: '' });
+  }
 }

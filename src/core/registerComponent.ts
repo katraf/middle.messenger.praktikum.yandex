@@ -4,7 +4,7 @@ import type { BlockOwnProps } from './Block';
 
 export interface ComponentConstructor {
   componentName: string;
-  new (props: any): Block<object>;
+  new (props: never): Block<object>;
 }
 
 let uniqueId = 0;
@@ -15,7 +15,7 @@ export const registerComponent = (Component: ComponentConstructor): void => {
     const context = args.length > 1 && typeof args[0] === 'object' ? args[0] : {};
     const props: Record<string, unknown> = { ...context, ...options.hash };
 
-    const component = new Component(props);
+    const component = new Component(props as never);
     const getElement = (): Element => {
       const element = component.element();
       if (!element) {
