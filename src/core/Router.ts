@@ -20,6 +20,11 @@ export default class Router {
 
   private guard: RouteGuard | null = null;
 
+  /** Кнопки «Назад» и «Вперёд» браузера */
+  private handlePopState = (): void => {
+    this.onRoute(window.location.pathname);
+  };
+
   constructor(rootQuery: string) {
     if (Router.instance) {
       return Router.instance;
@@ -50,12 +55,17 @@ export default class Router {
   }
 
   start(): void {
-    // Кнопки «Назад» и «Вперёд» браузера
-    window.onpopstate = () => {
-      this.onRoute(window.location.pathname);
-    };
+    // addEventListener, а не window.onpopstate: не затираем чужие обработчики,
+    // а повторный start() не добавит второй подписки
+    window.removeEventListener('popstate', this.handlePopState);
+    window.addEventListener('popstate', this.handlePopState);
 
     this.onRoute(window.location.pathname);
+  }
+
+  /** Перестать реагировать на историю браузера (нужно, например, в тестах) */
+  stop(): void {
+    window.removeEventListener('popstate', this.handlePopState);
   }
 
   go(pathname: string): void {
@@ -67,6 +77,29 @@ export default class Router {
   replace(pathname: string): void {
     this.history.replaceState({}, '', pathname);
     this.onRoute(pathname);
+  }
+
+  /** Параметр из адреса: /messenger?chat=12 → getQueryParam('chat') === '12' */
+  getQueryParam(name: string): string | null {
+    return new URLSearchParams(window.location.search).get(name);
+  }
+
+  /**
+   * Меняет параметр адреса без новой записи в истории и без перерисовки страницы.
+   * null удаляет параметр. Так состояние страницы переживает F5.
+   */
+  setQueryParam(name: string, value: string | null): void {
+    const url = new URL(window.location.href);
+
+    if (value === null) {
+      url.searchParams.delete(name);
+    } else {
+      url.searchParams.set(name, value);
+    }
+
+    if (url.href !== window.location.href) {
+      this.history.replaceState(this.history.state, '', `${url.pathname}${url.search}${url.hash}`);
+    }
   }
 
   back(): void {

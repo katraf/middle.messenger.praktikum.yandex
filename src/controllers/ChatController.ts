@@ -1,16 +1,17 @@
 import { ChatsAPI, type ChatsQuery } from '../api';
 import { store } from '../models';
+import { UserError } from '../utils/UserError';
 import { handleApiError } from './errors';
 import { UserController } from './UserController';
 
-/** Методы бросают Error с текстом для показа в форме */
+/** Методы бросают UserError с текстом для показа в форме */
 export const ChatController = {
   async fetchChats(query: ChatsQuery = {}): Promise<void> {
     try {
       const chats = await ChatsAPI.getChats(query);
       store.set({ chats });
     } catch (error) {
-      throw new Error(handleApiError(error));
+      throw handleApiError(error);
     }
   },
 
@@ -20,7 +21,7 @@ export const ChatController = {
     try {
       ({ id: chatId } = await ChatsAPI.createChat(title));
     } catch (error) {
-      throw new Error(handleApiError(error));
+      throw handleApiError(error);
     }
 
     await this.fetchChats();
@@ -32,16 +33,17 @@ export const ChatController = {
     try {
       await ChatsAPI.deleteChat(chatId);
     } catch (error) {
-      throw new Error(handleApiError(error));
+      throw handleApiError(error);
     }
 
     const { chats, activeChatId } = store.getState();
     store.set({
       chats: chats.filter((chat) => chat.id !== chatId),
-      ...(activeChatId === chatId ? { activeChatId: null, activeChatUsers: [] } : {}),
+      ...(activeChatId === chatId ? { activeChatId: null, activeChatUsers: [], messages: [] } : {}),
     });
   },
 
+  /** Открывает чат и загружает участников; к сокету подключится MessagesController.watch */
   async selectChat(chatId: number): Promise<void> {
     store.set({ activeChatId: chatId, activeChatUsers: [] });
     await this.fetchChatUsers(chatId);
@@ -55,7 +57,7 @@ export const ChatController = {
         store.set({ activeChatUsers });
       }
     } catch (error) {
-      throw new Error(handleApiError(error));
+      throw handleApiError(error);
     }
   },
 
@@ -63,13 +65,13 @@ export const ChatController = {
     const user = await UserController.findByLogin(login);
 
     if (!user) {
-      throw new Error(`Пользователь с логином «${login}» не найден`);
+      throw new UserError(`Пользователь с логином «${login}» не найден`);
     }
 
     try {
       await ChatsAPI.addUsers(chatId, [user.id]);
     } catch (error) {
-      throw new Error(handleApiError(error));
+      throw handleApiError(error);
     }
 
     await this.fetchChatUsers(chatId);
@@ -79,7 +81,7 @@ export const ChatController = {
     try {
       await ChatsAPI.removeUsers(chatId, [userId]);
     } catch (error) {
-      throw new Error(handleApiError(error));
+      throw handleApiError(error);
     }
 
     await this.fetchChatUsers(chatId);

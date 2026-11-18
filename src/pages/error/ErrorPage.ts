@@ -6,7 +6,10 @@ import './error.pcss';
 interface ErrorPageProps extends BlockOwnProps {
   code: string;
   text: string;
-  backHref?: string;
+  backHref: string;
+  backText: string;
+  /** Обычная ссылка с перезагрузкой: приложение заново проверит сессию и связь с сервером */
+  reload?: boolean;
 }
 
 class ErrorPage extends Block<ErrorPageProps> {
@@ -15,12 +18,18 @@ class ErrorPage extends Block<ErrorPageProps> {
 
 export class NotFoundPage extends ErrorPage {
   constructor() {
-    super({ code: '404', text: 'Такой страницы нет', backHref: Routes.Messenger });
+    super({ code: '404', text: 'Такой страницы нет', backHref: Routes.Messenger, backText: 'Назад к чатам' });
   }
 }
 
 export class ServerErrorPage extends ErrorPage {
   constructor() {
-    super({ code: '500', text: 'Сервер не отвечает. Мы уже чиним', backHref: Routes.Messenger });
+    super({
+      code: '500',
+      text: 'Сервер не отвечает. Мы уже чиним',
+      backHref: Routes.Messenger,
+      backText: 'Попробовать снова',
+      reload: true,
+    });
   }
 }

@@ -99,11 +99,19 @@
 
   &__feed {
     display: flex;
+    min-height: 0;
     flex-grow: 1;
     flex-direction: column;
     gap: var(--space-l);
     padding: var(--space-l) 0;
     overflow-y: auto;
+  }
+
+  &__days,
+  &__day {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
   }
 
   &__date {
@@ -117,6 +125,24 @@
     flex-direction: column;
     gap: 10px;
   }
+
+  &__more {
+    align-self: center;
+    padding: var(--space-xs) var(--space-m);
+    font-size: var(--font-size-s);
+    color: var(--color-primary);
+    background: var(--color-accent-soft);
+    border: none;
+    border-radius: var(--radius-l);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.composer__status {
+  padding-bottom: var(--space-s);
 }
 
 .composer {
@@ -239,4 +265,29 @@
 .members__danger {
   padding-top: var(--space-s);
   border-top: 1px solid var(--color-border);
+}
+
+.dialog__notice {
+  display: flex;
+  gap: var(--space-s);
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--space-s);
+  padding: var(--space-s) var(--space-m);
+  font-size: var(--font-size-s);
+  color: var(--color-danger);
+  background: var(--color-background);
+  border-radius: var(--radius-s);
+}
+
+.dialog__retry {
+  padding: 0;
+  font-size: inherit;
+  color: var(--color-primary);
+  background: none;
+  border: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

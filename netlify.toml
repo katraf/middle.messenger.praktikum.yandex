@@ -7,3 +7,12 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Заголовки безопасности для опубликованного сайта.
+# 'unsafe-eval' нужен Handlebars.compile (new Function); встроенные скрипты и onerror по-прежнему запрещены
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://ya-praktikum.tech; connect-src 'self' https://ya-praktikum.tech wss://ya-praktikum.tech; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

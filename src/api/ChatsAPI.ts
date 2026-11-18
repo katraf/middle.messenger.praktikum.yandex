@@ -16,6 +16,9 @@ export const ChatsAPI = {
 
   deleteChat: (chatId: number) => http.delete('', { data: { chatId } }),
 
+  /** Токен для подключения к WebSocket чата */
+  getToken: (chatId: number) => http.post<{ token: string }>(`/token/${chatId}`),
+
   getChatUsers: (chatId: number) => http.get<ChatUser[]>(`/${chatId}/users`),
 
   addUsers: (chatId: number, users: number[]) => http.put('/users', { data: { chatId, users } }),
